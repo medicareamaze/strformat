@@ -24,7 +24,7 @@
 
     // Matches '{{', '}}', and '{<token>}' where <token> is one or more
     // word characters (letter, number, or underscore).
-    var RE = /\{\{|\}\}|\{([^\}]+)\}/g;
+    var RE = /\<\<|\>\>|\%\%|\<%([^\>]+)\%>/g;
 
     // Gets a property from an object by string.
     function getProperty(o, s) {
@@ -71,11 +71,14 @@
             args = args[0]; // handle a single array or object
         }
         return str.replace(RE, function (m, n) {
-            if (m == '{{') {
-                return '{';
+            if (m == '<<') {
+                return '<';
             }
-            if (m == '}}') {
-                return '}';
+            if (m == '>>') {
+                return '>';
+            }
+            if (m == '%%') {
+                return '%';
             }
             var val = getProperty(args, n);
             return (typeof val === 'undefined') ? m : val;
